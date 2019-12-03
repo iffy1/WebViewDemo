@@ -2,7 +2,11 @@ package com.phz.webviewdemo
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -42,11 +46,46 @@ class MainActivity : AppCompatActivity() {
         var uri: Uri=FileProvider.getUriForFile(this, "com.phz.webviewdemo.provider", file)
         wb.addJavascriptInterface(JsBridge(),"jsb")
         wb.loadUrl(uri.toString())
+        wb.webChromeClient=MyChromeClient()
         cl.addView(wb,layoutParams)
 
         bt.setOnClickListener {
             // 调用javascript的callJS()方法
-            wb.loadUrl("javascript:test(6,6)")
+//            wb.loadUrl("javascript:test(6,6)")
+            wb.loadUrl("javascript:testPop()")
+        }
+    }
+
+    class MyChromeClient: WebChromeClient() {
+        override fun onJsAlert(
+            view: WebView?,
+            url: String?,
+            message: String?,
+            result: JsResult?
+        ): Boolean {
+            Log.e("onJsAlert", "$url|$message|$result")
+            return super.onJsAlert(view, url, message, result)
+        }
+
+        override fun onJsPrompt(
+            view: WebView?,
+            url: String?,
+            message: String?,
+            defaultValue: String?,
+            result: JsPromptResult?
+        ): Boolean {
+            Log.e("onJsPrompt", "$url|$message|$result")
+            return super.onJsPrompt(view, url, message, defaultValue, result)
+        }
+
+        override fun onJsConfirm(
+            view: WebView?,
+            url: String?,
+            message: String?,
+            result: JsResult?
+        ): Boolean {
+            Log.e("onJsConfirm", "$url|$message|$result")
+            return super.onJsConfirm(view, url, message, result)
         }
     }
 

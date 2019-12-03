@@ -10,13 +10,16 @@
            //jsb是和应用端商量好的字段，那边的webView有设置，所以可以拉起java方法
           jsb.printLog(logText);
           jsb.printLogNew(logText);
-<!--          document.getElementById("h").innerHTML= ("我是标题");-->
         }
 
         <!--这个方法是用来测试java调用js的-->
         function test(i,m)
         {
         document.getElementById("h").innerHTML= (i+m);
+        }
+
+        function testPop(){
+            alert("17张牌你能秒我？");
         }
     </script>
     <style type="text/css">
