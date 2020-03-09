@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.phz.webviewdemo.ICallBackFromMainToWeb;
 import com.phz.webviewdemo.IWebViewToMain;
 
 /**
@@ -21,6 +22,15 @@ public class MainService extends Service {
 
     Binder b = new IWebViewToMain.Stub() {
         @Override
+        public void execute(String cmd, String content, ICallBackFromMainToWeb cb) throws RemoteException {
+            Log.e("iffy","主应用收到webview的请求"+content);
+            cb.handleCallBack("我已经收到消息");
+            if ("start_activity".equals(cmd)) {
+                ARouter.getInstance().build(content).navigation();
+            }
+        }
+
+        @Override
         public void linkToDeath(@NonNull DeathRecipient recipient, int flags) {
             super.linkToDeath(recipient, flags);
         }
@@ -28,17 +38,6 @@ public class MainService extends Service {
         @Override
         public boolean unlinkToDeath(@NonNull DeathRecipient recipient, int flags) {
             return super.unlinkToDeath(recipient, flags);
-        }
-
-        @Override
-        public void execute(String cmd, String content) throws RemoteException {
-            Log.e("iffy","主应用收到webview的请求"+content);
-            if ("start_activity".equals(cmd)) {
-//                Intent i = new Intent(MainService.this,TestaActivity.class);
-//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-                ARouter.getInstance().build(content).navigation();
-            }
         }
     };
 
