@@ -1,2 +1,2 @@
-include ':app'
+include ':webViewApp', ':mainApp'
 rootProject.name='WebViewDemo'

@@ -12,6 +12,16 @@
           jsb.printLogNew(logText);
         }
 
+       function openActivityA(){
+           //jsb是和应用端商量好的字段，那边的webView有设置，所以可以拉起java方法
+          jsb.post("start_activity","/mainApp/testaActivity");
+        }
+
+       function openActivityB(){
+           //jsb是和应用端商量好的字段，那边的webView有设置，所以可以拉起java方法
+          jsb.post("start_activity","/mainApp/testbActivity");
+        }
+
         <!--这个方法是用来测试java调用js的-->
         function test(i,m)
         {
@@ -21,6 +31,8 @@
         function testPop(){
             alert("17张牌你能秒我？");
         }
+
+
     </script>
     <style type="text/css">
 				html{
@@ -35,10 +47,14 @@
 					width:auto;
 					height:35px;
 					}
+
+
     </style>
 </head>
 <body>
 <h1 id="h">我是标题</h1>
 <button class="bt_todo_java" id="button_one" onclick="printLog('你要干什么')">js调用java</button>
+<button class="bt_todo_java" id="button_two" onclick="openActivityA()">打开ActivityA</button>
+<button class="bt_todo_java" id="button_three" onclick="openActivityB()">打开ActivityB</button>
 </body>
 </html>
